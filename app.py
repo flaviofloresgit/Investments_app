@@ -560,7 +560,7 @@ with tab_reporte:
                     c1, c2, c3, c4 = st.columns(4)
                     c1.metric("Ingresos Totales", f"${tot_ingreso:,.2f} MXN")
                     c2.metric("Costo Ajustado INPC", f"${tot_costo:,.2f} MXN")
-                    c3.metric("Ganancia/Pérdida Neta", f"${tot_ganancia:,.2f} MXN", delta=f"${tot_ganancia:,.2f} MXN")
+                    c3.metric("Ganancia/Pérdida Neta", f"${tot_ganancia:,.2f} MXN")
                     c4.metric("ISR Estimado (10%)", f"${tot_isr:,.2f} MXN")
                     st.divider()
                     st.subheader(f"Desglose Fiscal de Ventas ({anio_filtro})")
