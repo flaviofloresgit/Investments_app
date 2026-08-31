@@ -391,7 +391,7 @@ with tab_dividendos:
             
             # --- 4. MÉTRICAS DE RESUMEN (VALORES DIRECTOS PARA EL SAT) ---
             total_bruto_usd = df_res_div["Monto Bruto (USD)"].sum()
-            total_irs_usd = df_res_div["Retención IRS (USD)"].sumn()
+            total_irs_usd = df_res_div["Retención IRS (USD)"].sum()
             total_bruto_mxn = df_res_div["Ingreso Bruto (MXN)"].sum()
             total_irs_mxn = df_res_div["ISR Retenido Extranjero (MXN)"].sum()
             total_neto_mxn = df_res_div["Ingreso Neto (MXN)"].sum()
