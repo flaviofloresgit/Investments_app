@@ -390,14 +390,16 @@ with tab_dividendos:
             df_res_div = pd.DataFrame(filas_calculadas)
             
             # --- 4. MÉTRICAS DE RESUMEN (VALORES DIRECTOS PARA EL SAT) ---
+            total_bruto_usd = df_res_div["Monto Bruto (USD)"].sum()
+            total_irs_usd = df_res_div["Retención IRS (USD)"].sumn()
             total_bruto_mxn = df_res_div["Ingreso Bruto (MXN)"].sum()
             total_irs_mxn = df_res_div["ISR Retenido Extranjero (MXN)"].sum()
             total_neto_mxn = df_res_div["Ingreso Neto (MXN)"].sum()
             total_isr10_mxn = df_res_div["ISR 10% México (MXN)"].sum()
             
             m1, m2, m3, m4 = st.columns(4)
-            m1.metric("Ingreso Bruto Acumulable", f"${total_bruto_mxn:,.2f} MXN")
-            m2.metric("Impuesto Retenido EE.UU. (Acreditable)", f"${total_irs_mxn:,.2f} MXN")
+            m1.metric("Ingreso Bruto Acumulable", f"${total_bruto_mxn:,.2f} MXN", f"${total_bruto_usd:,.2f} USD", delta_color="off')
+            m2.metric("Impuesto Retenido EE.UU. (Acreditable)", f"${total_irs_mxn:,.2f} MXN", f"${total_irs_usd:,.2f} USD", delta_color="off")
             m3.metric("Ingreso Neto Percibido", f"${total_neto_mxn:,.2f} MXN")
             m4.metric("ISR 10% México (Estimado)", f"${total_isr10_mxn:,.2f} MXN")
             
