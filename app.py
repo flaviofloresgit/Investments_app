@@ -463,11 +463,13 @@ with tab_reporte:
                 df_ventas[col] = pd.to_numeric(df_ventas[col])
             
             resultados_fifo = []
-            tickers = df_ventas["ticker"].unique()
+            # Extraer combinaciones únicas de (broker, ticker) que tienen ventas
+            grupos = df_ventas[["broker", "ticker"]].drop_duplicates().to_numpy()
             
-            for t in tickers:
-                compras_t = df_compras[df_compras["ticker"] == t].copy().to_dict('records')
-                ventas_t = df_ventas[df_ventas["ticker"] == t].copy().to_dict('records')
+            for b, t in grupos:
+                # Filtrar compras y ventas pertenecientes estricta y únicamente a ese bróker
+                compras_t = df_compras[(df_compras["broker"] == b) & (df_compras["ticker"] == t)].copy().to_dict('records')
+                ventas_t = df_ventas[(df_ventas["broker"] == b) & (df_ventas["ticker"] == t)].copy().to_dict('records')
                 
                 lotes = []
                 for c in compras_t:
