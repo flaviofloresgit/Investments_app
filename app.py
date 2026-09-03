@@ -120,19 +120,17 @@ def calcular_factor_inpc_sat(fecha_compra, fecha_venta):
     dt_venta = pd.to_datetime(fecha_venta)
     # Validar si compra y venta ocurrieron en el mismo mes y año.
     if dt_compra.year == dt_venta.year and dt_compra.month == dt_venta.month:
-        factor = 1.00000
+        return 1.00000
+    # Calcula el Factor de Actualización según Art. 129 LISR.
+    dt_venta_anterior = dt_venta - pd.DateOffset(months=1)
+    inpc_venta = obtener_inpc(dt_venta_anterior.year, dt_venta_anterior.month)
+    inpc_compra = obtener_inpc(dt_compra.year, dt_compra.month)
+
+    if inpc_compra > 0:
+        factor = inpc_venta / inpc_compra
     else:
-        # Calcula el Factor de Actualización según Art. 129 LISR.
-        dt_venta_anterior = dt_venta - pd.DateOffset(months=1)
-        inpc_venta = obtener_inpc(dt_venta_anterior.year, dt_venta_anterior.month)
-        inpc_compra = obtener_inpc(dt_compra.year, dt_compra.month)
-
-        if inpc_compra > 0:
-            factor = inpc_venta / inpc_compra
-        else:
-            factor = 1.0
-
-        return max(1.0, round(factor, 5))
+        factor = 1.0
+    return max(1.0, round(factor, 5))
 
 def mostrar_tabla_con_filtros(df: pd.DataFrame, key_prefix: str):
     """
