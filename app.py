@@ -536,8 +536,7 @@ with tab_reporte:
                             "Factor INPC": factor_act,
                             "Costo Ajustado (MXN)": costo_compra_mxn_ajustado,
                             "Ingreso Venta (MXN)": ingreso_venta_mxn,
-                            "Ganancia/Pérdida (MXN)": ganancia_mxn,
-                            "ISR 10% (MXN)": isr_10
+                            "Ganancia/Pérdida (MXN)": ganancia_mxn
                         })
                         
                         cant_por_vender = round(cant_por_vender - cant_matcheada, 9)
@@ -616,8 +615,7 @@ with tab_reporte:
                                      "Costo Compra (MXN)": st.column_config.NumberColumn(format="$%.2f"),
                                      "Costo Ajustado (MXN)": st.column_config.NumberColumn(format="$%.2f"),
                                      "Ingreso Venta (MXN)": st.column_config.NumberColumn(format="$%.2f"),
-                                     "Ganancia/Pérdida (MXN)": st.column_config.NumberColumn(format="$%.2f"),
-                                     "ISR 10% (MXN)": st.column_config.NumberColumn(format="$%.2f"),
+                                     "Ganancia/Pérdida (MXN)": st.column_config.NumberColumn(format="$%.2f")
                                  }
                                 )
 
