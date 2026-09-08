@@ -574,7 +574,7 @@ with tab_reporte:
                     st.dataframe(df_res, width="stretch",
                                  column_config={
                                      "Cantidad": st.column_config.NumberColumn(format="%.9f"),
-                                     "Factor INPC": st.column_config.NumberColumn(format="%.5f"),
+                                     "Factor INPC": st.column_config.NumberColumn(format="%.4f"),
                                      "TC DOF Compra": st.column_config.NumberColumn(format="%.4f"),
                                      "TC DOF Venta": st.column_config.NumberColumn(format="%.4f"),
                                      "Costo Compra (MXN)": st.column_config.NumberColumn(format="$%.4f"),
