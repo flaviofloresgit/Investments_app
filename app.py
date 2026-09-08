@@ -2,10 +2,12 @@
 #Iniciar la app: streamlit run app.py
 
 import os
-import io
 import requests
 import streamlit as st
 import pandas as pd
+import io
+import openpyxl
+from openpyxl.utils import get_column_letter
 from supabase import create_client, Client
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -575,6 +577,7 @@ with tab_reporte:
                     c3.metric("Ganancia/Pérdida Neta", f"${tot_ganancia:,.2f} MXN")
                     c4.metric("ISR Estimado (10%)", f"${tot_isr:,.2f} MXN")
 
+                    # --- BOTÓN DE EXPORTACIÓN A EXCEL (.XLSX) ---
                     # Crear un buffer en memoria para no saturar el disco del servidor
                     buffer_excel = io.BytesIO()
                     
@@ -585,12 +588,12 @@ with tab_reporte:
                         # Acceder a las propiedades de openpyxl para darle formato estético rápido
                         workbook = writer.book
                         worksheet = writer.sheets[f"FIFO {anio_filtro}"]
-                        worksheet.views.sheetView[0].showGridLines = True
+                        worksheet.views.sheetView.showGridLines = True
                         
                         # Autoajustar el ancho de las columnas para que no se corten los números
                         for col in worksheet.columns:
                             max_len = max(len(str(cell.value or '')) for cell in col)
-                            col_letter = pd.io.formats.excel.get_column_letter(col.column)
+                            col_letter = get_column_letter(col.column)
                             worksheet.column_dimensions[col_letter].width = max(max_len + 3, 12)
                     
                     # Generar el botón nativo de descarga en Streamlit
