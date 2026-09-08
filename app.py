@@ -588,7 +588,7 @@ with tab_reporte:
                         # Acceder a las propiedades de openpyxl para darle formato estético rápido
                         workbook = writer.book
                         worksheet = writer.sheets[f"FIFO {anio_filtro}"]
-                        worksheet.views.sheetView.showGridLines = True
+                        worksheet.views.sheetView[0].showGridLines = True
                         
                         # Autoajustar el ancho de las columnas para que no se corten los números
                         for col in worksheet.columns:
