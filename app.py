@@ -447,9 +447,9 @@ with tab_reporte:
         q_compras = supabase.table("compras").select("*").order("fecha", desc=False)
         q_ventas = supabase.table("ventas").select("*").order("fecha", desc=False)
         
-        if broker_filtro != "Todos":
-            q_compras = q_compras.eq("broker", broker_filtro)
-            q_ventas = q_ventas.eq("broker", broker_filtro)
+        #if broker_filtro != "Todos":
+        #    q_compras = q_compras.eq("broker", broker_filtro)
+        #    q_ventas = q_ventas.eq("broker", broker_filtro)
             
         res_c = q_compras.execute()
         res_v = q_ventas.execute()
@@ -549,15 +549,19 @@ with tab_reporte:
             # 3. MOSTRAR Y FILTRAR RESULTADOS
             if resultados_fifo:
                 df_res = pd.DataFrame(resultados_fifo)
-                
+
+                # FILTRO POR BROKER
+                if broker_filtro != "Todos":
+                    df_res = df_res[df_res["Broker"] == broker_filtro]
+                    
                 # FILTRO POR EJERCICIO FISCAL (AÑO DE VENTA)
                 if anio_filtro != "Todos":
                     df_res = df_res[df_res["Fecha Venta"].str.startswith(str(anio_filtro))]
                 
                 if df_res.empty:
-                    st.info(f"No hay ventas registradas para el Ejercicio Fiscal {anio_filtro}.")
+                    st.info(f"No hay ventas registradas para los filtros seleccionados.")
                 else:
-                    st.success(f"¡Cálculo PEPS realizado con éxito para el Ejercicio Fiscal {anio_filtro}!")
+                    st.success(f"¡Cálculo PEPS realizado con éxito!")
                     
                     tot_ingreso = round(df_res["Ingreso Venta (MXN)"].sum(), 2)
                     tot_costo = round(df_res["Costo Ajustado (MXN)"].sum(), 2)
@@ -569,6 +573,7 @@ with tab_reporte:
                     c2.metric("Costo Ajustado INPC", f"${tot_costo:,.2f} MXN")
                     c3.metric("Ganancia/Pérdida Neta", f"${tot_ganancia:,.2f} MXN")
                     c4.metric("ISR Estimado (10%)", f"${tot_isr:,.2f} MXN")
+                    
                     st.divider()
                     st.subheader(f"Desglose Fiscal de Ventas ({anio_filtro})")
                     st.dataframe(df_res, width="stretch",
