@@ -559,10 +559,10 @@ with tab_reporte:
                 else:
                     st.success(f"¡Cálculo PEPS realizado con éxito para el Ejercicio Fiscal {anio_filtro}!")
                     
-                    tot_ingreso = df_res["Ingreso Venta (MXN)"].sum()
-                    tot_costo = df_res["Costo Ajustado (MXN)"].sum()
-                    tot_ganancia = df_res["Ganancia/Pérdida (MXN)"].sum()
-                    tot_isr = max(0.0, tot_ganancia * 0.10)
+                    tot_ingreso = round(df_res["Ingreso Venta (MXN)"].sum(), 2)
+                    tot_costo = round(df_res["Costo Ajustado (MXN)"].sum(), 2)
+                    tot_ganancia = round(df_res["Ganancia/Pérdida (MXN)"].sum(), 2)
+                    tot_isr = round(max(0.0, tot_ganancia * 0.10), 2)
                     
                     c1, c2, c3, c4 = st.columns(4)
                     c1.metric("Ingresos Totales", f"${tot_ingreso:,.2f} MXN")
@@ -577,11 +577,11 @@ with tab_reporte:
                                      "Factor INPC": st.column_config.NumberColumn(format="%.4f"),
                                      "TC DOF Compra": st.column_config.NumberColumn(format="%.4f"),
                                      "TC DOF Venta": st.column_config.NumberColumn(format="%.4f"),
-                                     "Costo Compra (MXN)": st.column_config.NumberColumn(format="$%.4f"),
-                                     "Costo Ajustado (MXN)": st.column_config.NumberColumn(format="$%.4f"),
-                                     "Ingreso Venta (MXN)": st.column_config.NumberColumn(format="$%.4f"),
-                                     "Ganancia/Pérdida (MXN)": st.column_config.NumberColumn(format="$%.4f"),
-                                     "ISR 10% (MXN)": st.column_config.NumberColumn(format="$%.4f"),
+                                     "Costo Compra (MXN)": st.column_config.NumberColumn(format="$%.2f"),
+                                     "Costo Ajustado (MXN)": st.column_config.NumberColumn(format="$%.2f"),
+                                     "Ingreso Venta (MXN)": st.column_config.NumberColumn(format="$%.2f"),
+                                     "Ganancia/Pérdida (MXN)": st.column_config.NumberColumn(format="$%.2f"),
+                                     "ISR 10% (MXN)": st.column_config.NumberColumn(format="$%.2f"),
                                  }
                                 )
 
