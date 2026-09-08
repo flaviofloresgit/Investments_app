@@ -591,9 +591,9 @@ with tab_reporte:
                         worksheet.views.sheetView[0].showGridLines = True
                         
                         # Autoajustar el ancho de las columnas para que no se corten los números
-                        for col in worksheet.columns:
+                        for i, col in enumerate(worksheet.columns, start=1):
                             max_len = max(len(str(cell.value or '')) for cell in col)
-                            col_letter = get_column_letter(col.column)
+                            col_letter = get_column_letter(i)
                             worksheet.column_dimensions[col_letter].width = max(max_len + 3, 12)
                     
                     # Generar el botón nativo de descarga en Streamlit
