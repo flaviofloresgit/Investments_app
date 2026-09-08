@@ -2,6 +2,7 @@
 #Iniciar la app: streamlit run app.py
 
 import os
+import io
 import requests
 import streamlit as st
 import pandas as pd
@@ -573,6 +574,33 @@ with tab_reporte:
                     c2.metric("Costo Ajustado INPC", f"${tot_costo:,.2f} MXN")
                     c3.metric("Ganancia/Pérdida Neta", f"${tot_ganancia:,.2f} MXN")
                     c4.metric("ISR Estimado (10%)", f"${tot_isr:,.2f} MXN")
+
+                    # Crear un buffer en memoria para no saturar el disco del servidor
+                    buffer_excel = io.BytesIO()
+                    
+                    with pd.ExcelWriter(buffer_excel, engine='openpyxl') as writer:
+                        # Exportar el DataFrame limpio a Excel
+                        df_res.to_excel(writer, sheet_name=f"FIFO {anio_filtro}", index=False)
+                        
+                        # Acceder a las propiedades de openpyxl para darle formato estético rápido
+                        workbook = writer.book
+                        worksheet = writer.sheets[f"FIFO {anio_filtro}"]
+                        worksheet.views.sheetView[0].showGridLines = True
+                        
+                        # Autoajustar el ancho de las columnas para que no se corten los números
+                        for col in worksheet.columns:
+                            max_len = max(len(str(cell.value or '')) for cell in col)
+                            col_letter = openpyxl.utils.get_column_letter(col[0].column)
+                            worksheet.column_dimensions[col_letter].width = max(max_len + 3, 12)
+                    
+                    # Generar el botón nativo de descarga en Streamlit
+                    st.download_button(
+                        label="📥 Descargar Papel de Trabajo (Excel)",
+                        data=buffer_excel.getvalue(),
+                        file_name=f"Papel_de_Trabajo_FIFO_{broker_filtro}_{anio_filtro}.xlsx",
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        key="btn_descarga_excel"
+                    )
                     
                     st.divider()
                     st.subheader(f"Desglose Fiscal de Ventas ({anio_filtro})")
