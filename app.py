@@ -130,7 +130,7 @@ def calcular_factor_inpc_sat(fecha_compra, fecha_venta):
         factor = inpc_venta / inpc_compra
     else:
         factor = 1.0
-    return max(1.0, round(factor, 5))
+    return max(1.0, round(factor, 4))
 
 def mostrar_tabla_con_filtros(df: pd.DataFrame, key_prefix: str):
     """
