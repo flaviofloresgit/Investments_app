@@ -590,7 +590,7 @@ with tab_reporte:
                         # Autoajustar el ancho de las columnas para que no se corten los números
                         for col in worksheet.columns:
                             max_len = max(len(str(cell.value or '')) for cell in col)
-                            col_letter = openpyxl.utils.get_column_letter(col[0].column)
+                            col_letter = pd.io.formats.excel.get_column_letter(col.column)
                             worksheet.column_dimensions[col_letter].width = max(max_len + 3, 12)
                     
                     # Generar el botón nativo de descarga en Streamlit
